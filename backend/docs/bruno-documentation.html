@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invera TodoList - API Documentation</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        #opencollection-container { width: 100vw; height: 100vh; }
+    </style>
+    <link rel="stylesheet" href="https://cdn.opencollection.com/docs.css">
+    <script src="https://cdn.opencollection.com/docs.js"></script>
+</head>
+<body>
+    <div id="opencollection-container"></div>
+    <script>
+        const collectionData = "opencollection: 1.0.0\ninfo:\n  name: Invera TodoList\nconfig:\n  proxy:\n    inherit: true\n    config:\n      protocol: http\n      hostname: ''\n      port: ''\n      auth:\n        username: ''\n        password: ''\n      bypassProxy: ''\n  environments:\n    - name: todo-api\n      variables:\n        - name: base_url\n          value: http://127.0.0.1:8000\n        - name: token\n          value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzczMjQwMzY2LCJpYXQiOjE3NzMyMzY3NjYsImp0aSI6ImYxMWVkYzVjNDAzZTQwZmQ5MDlmNjdmNjVmMTc3YWM2IiwidXNlcl9pZCI6IjEifQ.zcKy6KShAgrK5otUyYT5dZW4dGMd1hklG6q0VDkY8aw\nitems:\n  - info:\n      name: Login\n      type: http\n      seq: 1\n    http:\n      method: POST\n      url: '{{base_url}}/api/auth/login/'\n      body:\n        type: json\n        data: |-\n          {\n            \"username\":\"demouser\",\n            \"password\":\"demopass\"\n          }\n      auth: inherit\n    runtime:\n      scripts:\n        - type: after-response\n          code: |-\n            const data = res.getBody();\n\n            bru.setEnvVar(\"token\", data.access);\n    settings:\n      encodeUrl: true\n      timeout: 0\n      followRedirects: true\n      maxRedirects: 5\n  - info:\n      name: List ToDo\n      type: http\n      seq: 2\n    http:\n      method: GET\n      url: '{{base_url}}/api/todos/get/'\n      headers:\n        - name: Authorization\n          value: Bearer {{token}}\n    settings:\n      encodeUrl: true\n      timeout: 0\n      followRedirects: true\n      maxRedirects: 5\n  - info:\n      name: Create ToDo\n      type: http\n      seq: 3\n    http:\n      method: POST\n      url: '{{base_url}}/api/todos/create/'\n      headers:\n        - name: Authorization\n          value: Bearer {{token}}\n      body:\n        type: json\n        data: |-\n          {\n            \"title\":\"Dormir bebe\",\n            \"completed\": false\n          }\n    settings:\n      encodeUrl: true\n      timeout: 0\n      followRedirects: true\n      maxRedirects: 5\n  - info:\n      name: Complete ToDo\n      type: http\n      seq: 4\n    http:\n      method: PATCH\n      url: '{{base_url}}/api/todos/complete/6/'\n      headers:\n        - name: Authorization\n          value: Bearer {{token}}\n    settings:\n      encodeUrl: true\n      timeout: 0\n      followRedirects: true\n      maxRedirects: 5\n  - info:\n      name: Delete ToDo\n      type: http\n      seq: 5\n    http:\n      method: DELETE\n      url: '{{base_url}}/api/todos/delete/7/'\n      headers:\n        - name: Authorization\n          value: Bearer {{token}}\n    settings:\n      encodeUrl: true\n      timeout: 0\n      followRedirects: true\n      maxRedirects: 5\n  - info:\n      name: Register User\n      type: http\n      seq: 6\n    http:\n      method: POST\n      url: '{{base_url}}/api/users/register/'\n      body:\n        type: json\n        data: |-\n          {\n            \"username\":\"demouser2\",\n            \"password\":\"demopass\"\n          }\n      auth: inherit\n    settings:\n      encodeUrl: true\n      timeout: 0\n      followRedirects: true\n      maxRedirects: 5\nbundled: true\nextensions:\n  bruno:\n    ignore:\n      - node_modules\n      - .git\n    exportedAt: '2026-03-11T18:56:13.661Z'\n    exportedUsing: Bruno/3.1.4\n";
+        new window.OpenCollection({
+            target: document.getElementById('opencollection-container'),
+            opencollection: collectionData,
+            theme: 'light'
+        });
+    </script>
+</body>
+</html>
