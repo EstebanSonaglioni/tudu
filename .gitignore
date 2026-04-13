@@ -1,0 +1,45 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales (Virtual Environments)
+venv/
+env/
+.env/
+ENV/
+.venv/
+./backend/.venv/
+
+
+# Variables de entorno (¡Súper importante por seguridad!)
+.env
+.flaskenv
+
+# Bases de datos locales (SQLite)
+*.sqlite3
+
+# Django específico
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Logs y bases de datos temporales
+*.log
+nosetests.xml
+coverage.xml
+htmlcov/
+.tox/
+.nosexy
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

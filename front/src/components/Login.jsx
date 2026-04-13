@@ -26,7 +26,6 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data)
         localStorage.setItem(STORAGE_KEYS.TOKEN, data.access);
         navigate('/dashboard');
       } else {

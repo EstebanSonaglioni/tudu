@@ -9,12 +9,9 @@ import { ToDoContext } from "./ToDoContext";
 const Dashboard = () => {
     const navigate = useNavigate();
     const {toDos} = useContext(ToDoContext);
-
-    useEffect(()=>{
-      console.log("En el dashboard lo veo?")
-    },[toDos])
     
-    const handleLogout = () => {
+    const handleLogout = (e) => {
+        e.preventDefault()
         localStorage.removeItem(STORAGE_KEYS.TOKEN);
         navigate("/login");
     };

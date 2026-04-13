@@ -9,6 +9,8 @@ env/
 .env/
 ENV/
 
+.venv/
+
 # Variables de entorno (¡Súper importante por seguridad!)
 .env
 .flaskenv
