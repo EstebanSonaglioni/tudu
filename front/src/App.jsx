@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
+import RegisterUser from "./components/RegisterUser";
 
 const isAuthenticated = () => !!localStorage.getItem("token");
 
@@ -16,6 +17,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<RegisterUser/>} />
 
           {/* Ruta protegida: si no hay token, manda al login */}
           <Route

@@ -28,7 +28,6 @@ const Login = () => {
       if (response.ok) {
         console.log(data)
         localStorage.setItem(STORAGE_KEYS.TOKEN, data.access);
-        console.log(data.access, " - ",localStorage.getItem(STORAGE_KEYS.TOKEN))
         navigate('/dashboard');
       } else {
         setError(data.message || "Usuario o contraseña incorrectos");
@@ -108,7 +107,7 @@ const Login = () => {
 
         <div className="mt-6 text-center text-sm text-gray-400">
           ¿No tienes cuenta?{" "}
-          <a href="#" className="text-purple-400 hover:underline">
+          <a href="/register" className="text-purple-400 hover:underline">
             Regístrate
           </a>
         </div>
