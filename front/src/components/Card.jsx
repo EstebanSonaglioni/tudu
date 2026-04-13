@@ -1,64 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ENDPOINTS, STORAGE_KEYS } from "../config/constants";
+import { useToDos } from "../../hooks/useToDos";
+import { ToDoContext } from "./ToDoContext";
 
-const Card = ({ task, deleteToDo }) => {
-    const [completed, setCompleted] = useState(task.completed);
+const Card = ({ toDo }) => {
     const [error, setError] = useState(false);
+    const { deleteToDo, compleToDo } = useContext(ToDoContext);
 
-    useEffect(() => {}, [completed]);
+    useEffect(() => {}, [toDo.completed]);
 
     const formatDate = () =>{
-        const indexDot = String(task.created_at).indexOf(".")
-        const afterDot = String(task.created_at).slice(indexDot,-1)
-        return String(task.created_at).replace("T"," ").replace(afterDot,"").replace("Z","")
+        const indexDot = String(toDo.created_at).indexOf(".")
+        const afterDot = String(toDo.created_at).slice(indexDot,-1)
+        return String(toDo.created_at).replace("T"," ").replace(afterDot,"").replace("Z","")
     }
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-        const response = await fetch(ENDPOINTS.DELETE_TODO(task.id), {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-        });
-        if (response.ok) {
-            deleteToDo(task.id);
-        }
+        deleteToDo(toDo.id);
     };
 
     const handleComplete = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-        const response = await fetch(ENDPOINTS.COMPLETE_TODO(task.id), {
-            method: "PATCH",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-        });
-        // const data = await response.json()
-        if (response.ok) {
-            setCompleted(true);
-            setError(false);
-        } else {
-            console.log("Error creando tarea");
-            setError(true);
-        }
+        compleToDo(toDo)
     };
 
     return (
         <div
-            key={task.id}
+            key={toDo.id}
             className="bg-white/10 p-4 rounded-xl border border-white/10 relative"
         >
             <div className="flex">
 
-            {!completed && (
+            {!toDo.completed && (
                 <button
                     onClick={handleComplete}
-                    className="rounded-xl hover:bg-green-600 mr-3"
+                    className="rounded-xl hover:bg-green-600 mr-2"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -77,9 +54,9 @@ const Card = ({ task, deleteToDo }) => {
                 </button>
             ) }
             <h3
-                className={`font-semibold text-lg ${completed ? "line-through" : ""}`}
+                className={`font-semibold text-lg ${toDo.completed ? "line-through" : ""}`}
             >
-                {task.title}
+                {toDo.title}
             </h3>
             </div>
             <p className="text-gray-400">{formatDate()}</p>

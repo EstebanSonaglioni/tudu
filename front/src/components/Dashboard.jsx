@@ -1,50 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS, STORAGE_KEYS } from "../config/constants";
 import Card from "./Card";
 import CreateToDoForm from "./CreateToDoForm";
+import { useToDos } from "../../hooks/useToDos";
+import { ToDoContext } from "./ToDoContext";
 
 const Dashboard = () => {
-    const [tasks, setTasks] = useState([]);
     const navigate = useNavigate();
+    const {toDos} = useContext(ToDoContext);
 
-    const deleteToDo = (taskId) => {
-        setTasks(tasks.filter((task) => task.id != taskId));
-    };
-
-    const addToDo = (toDo) => {
-        setTasks([...tasks, toDo]);
-    };
-
-    const fetchTasks = async () => {
-        const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-        try {
-            const response = await fetch(ENDPOINTS.GET_TODOS, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setTasks(data);
-            } else {
-                if (response.status == 404) {
-                    return
-                }
-                localStorage.removeItem(STORAGE_KEYS.TOKEN);
-                navigate("/login");
-            }
-        } catch (error) {
-            console.error("Error cargando tareas");
-        }
-    };
-
-    useEffect(() => {
-        fetchTasks();
-    }, [navigate]);
-
+    useEffect(()=>{
+      console.log("En el dashboard lo veo?")
+    },[toDos])
+    
     const handleLogout = () => {
         localStorage.removeItem(STORAGE_KEYS.TOKEN);
         navigate("/login");
@@ -61,16 +30,15 @@ const Dashboard = () => {
                     Cerrar Sesión
                 </button>
             </div>
-            <CreateToDoForm addToDo={addToDo}></CreateToDoForm>
+            <CreateToDoForm></CreateToDoForm>
             <div className="grid gap-4 grid-cols-4">
-                {tasks.map((task) => (
+                {toDos?.map((toDo) => (
                     <Card
-                        task={task}
-                        key={task.id}
-                        deleteToDo={deleteToDo}
+                        toDo={toDo}
+                        key={toDo.id}
                     ></Card>
                 ))}
-                {tasks.length === 0 && (
+                {toDos.length === 0 && (
                     <p>No hay tareas pendientes. ¡Buen trabajo!</p>
                 )}
             </div>

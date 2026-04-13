@@ -8,30 +8,37 @@ import {
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import RegisterUser from "./components/RegisterUser";
+import {ToDoContextProvider} from "./components/ToDoContext";
 
 const isAuthenticated = () => !!localStorage.getItem("token");
 
 function App() {
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<RegisterUser/>} />
+      <>
+          <ToDoContextProvider>
+              <Router>
+                  <Routes>
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/register" element={<RegisterUser />} />
 
-          {/* Ruta protegida: si no hay token, manda al login */}
-          <Route
-            path="/dashboard"
-            element={
-              isAuthenticated() ? <Dashboard /> : <Navigate to="/login" />
-            }
-          />
+                      {/* Ruta protegida: si no hay token, manda al login */}
+                      <Route
+                          path="/dashboard"
+                          element={
+                              isAuthenticated() ? (
+                                  <Dashboard />
+                              ) : (
+                                  <Navigate to="/login" />
+                              )
+                          }
+                      />
 
-          {/* Redirección por defecto */}
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      </Router>
-    </>
+                      {/* Redirección por defecto */}
+                      <Route path="*" element={<Navigate to="/login" />} />
+                  </Routes>
+              </Router>
+          </ToDoContextProvider>
+      </>
   );
 }
 

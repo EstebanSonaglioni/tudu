@@ -1,30 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ENDPOINTS, STORAGE_KEYS } from "../config/constants";
+import { useToDos } from "../../hooks/useToDos";
+import { ToDoContext } from "./ToDoContext";
 
-const CreateToDoForm = ({ addToDo }) => {
+const CreateToDoForm = () => {
     const [title, setTitle] = useState("");
-    const [error, setError] = useState(false);
+
+    const { addToDo } = useContext(ToDoContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-        const response = await fetch(ENDPOINTS.CREATE_TODO, {
-            method: "POST",
-            body: JSON.stringify({
-                title: title,
-                complete: false,
-            }),
-
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-        });
-        setError(response.ok);
-        const data = await response.json()
-        if (response.ok) {
-            addToDo(data);
-        }
+        addToDo(title);
     };
 
     return (
