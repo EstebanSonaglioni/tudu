@@ -1,6 +1,6 @@
-# 🚀 tudú | Full-Stack Task Manager
+# 🚀 Tudú | Full-Stack Task Manager
 
-**tudú** es una aplicación de gestión de tareas diseñada con un enfoque en la robustez técnica y la experiencia de usuario. El proyecto implementa una arquitectura desacoplada, utilizando **Django** como motor de API y **React** para una interfaz moderna, todo orquestado bajo **Docker**.
+**Tudú** es una aplicación de gestión de tareas diseñada con un enfoque en la robustez técnica y la experiencia de usuario. El proyecto implementa una arquitectura desacoplada, utilizando **Django** como motor de API y **React** para una interfaz moderna, todo orquestado bajo **Docker**.
 
 ## 🏗️ Arquitectura del Proyecto
 
@@ -35,3 +35,36 @@ Solo necesitas tener instalado **Docker** y el plugin de **Compose**.
    ```bash
    git clone [https://github.com:EstebanSonaglioni/tudu.git](github.com:EstebanSonaglioni/tudu.git)
    cd tudu
+
+2. **Levantar el ecosistema (Frontend + Backend):**
+    ```nash
+    docker compose up --build -d
+3. **Preparar la base de datos:**
+    ```bash
+    docker compose exec backend python manage.py migrate
+    ```
+
+    La aplicación estará lista en:
+
+    Frontend: http://localhost:3000
+
+    API Backend: http://localhost:8000
+
+
+
+📁 Estructura de Directorios
+```Plaintext
+├── backend/            # API Django
+│   ├── apps/           # Lógica y modelos
+│   └── Dockerfile      # Python Environment
+├── front/              # React App
+│   ├── src/
+│   │   ├── hooks/      # Lógica de negocio (Custom Hooks)
+│   │   ├── components/ # UI Components
+│   ├── Dockerfile      # Multi-stage (Node + Nginx)
+│   └── nginx.conf      # Configuración de puerto 3000 y rutas
+└── docker-compose.yml  # Orquestación de servicios
+```
+
+
+Desarrollado por Esteban Sonaglioni - [LinkedIn](https://www.linkedin.com/in/esteban-sonaglioni-9211297b/)
